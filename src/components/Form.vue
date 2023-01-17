@@ -2,18 +2,25 @@
 import Button from "./Button.vue"
 import CustomInput from "./CustomInput.vue";
 import {defineComponent} from "vue";
+import FormSuccess from "@/components/FormSuccess.vue";
+
+function isInMonthlyRange(str: string): boolean {
+	const pattern = /^(0[1-9]|1[0-2])$/;
+	return pattern.test(str);
+}
 
 export default defineComponent({
 	name: "Form",
 	components: {
+		FormSuccess,
 		CustomInput,
-		Button
+		Button,
 	},
 	data() {
 		return {
 			showFormError: false,
 			formSubmitted: false,
-			cc:{
+			cc: {
 				nameValue: "",
 				cardNumber: "",
 				expDateMM: "",
@@ -22,19 +29,44 @@ export default defineComponent({
 			},
 		}
 	},
+	watch: {
+		cc: {
+			handler(newValue) {
+				this.$emit('sendData', newValue)
+			},
+			immediate: true,
+			deep: true
+		}
+	},
 	methods: {
 		handleSubmit() {
 			this.showFormError = true;
-			if (!this.formError)
+			if (!this.formError.length)
 				this.formSubmitted = true;
 		},
+		toContinue() {
+			this.formSubmitted = false;
+			this.showFormError = false;
+			for (const prop in this.cc) {
+				this.cc[prop] = ""
+			}
+		}
 
 	},
 	computed: {
-		formError(): string | null {
-			if (this.cc.nameValue.length < 3)
-				return "Name is too short"
-			return null;
+		formError(): string[] {
+			const errorArray = []
+
+			const date = new Date();
+			const year = date.getFullYear().toString().slice(-2);
+
+			if (this.cc.expDateYY < year) {
+				errorArray.push("Enter the expiration year in YY format, such as '25' for the year 2025.")
+			}
+			if (!isInMonthlyRange(this.cc.expDateMM)) {
+				errorArray.push("Enter the expiration month in MM format, such as '01' for January.")
+			}
+			return errorArray;
 		}
 	}
 })
@@ -42,7 +74,7 @@ export default defineComponent({
 </script>
 
 <template>
-	<div class="container">
+	<div class="form-container">
 		<form @submit.prevent="handleSubmit" v-if="!formSubmitted">
 
 			<CustomInput v-model="cc.nameValue" label="Cardholder Name"
@@ -55,25 +87,28 @@ export default defineComponent({
 
 			<div class="back">
 				<div class="expiration">
-					<CustomInput kind="number" v-model="cc.expDateMM" label="Exp.Date(MM/YY)" placeholder="MM"
-								 :force-show-error="showFormError"/>
-					<CustomInput kind="number" v-model="cc.expDateYY" placeholder="YY" :force-show-error="showFormError"/>
+					<p>Exp.Date(MM/YY)</p>
+					<div class="expiration-dates">
+						<CustomInput kind="date" v-model="cc.expDateMM" placeholder="MM"
+									 :force-show-error="showFormError"/>
+						<CustomInput kind="date" v-model="cc.expDateYY" placeholder="YY"
+									 :force-show-error="showFormError"/>
+					</div>
 				</div>
-				<CustomInput kind="number" v-model="cc.CVC" label="CVC" placeholder="e.g. 123"
+				<CustomInput kind="cvc" v-model="cc.CVC" label="CVC" placeholder="e.g. 123"
 							 :force-show-error="showFormError"/>
 			</div>
 
-			<div class="form-error" v-if="showFormError && formError">
-				{{ formError }}
+			<div class="form-error" v-if="showFormError && formError.length">
+				<p v-for="error in formError">{{ error }}</p>
 			</div>
 
-			<Button/>
-
-
+			<Button label="Confirm"/>
 		</form>
 
-		<div v-if="formSubmitted">
-			Well done!
+		<div v-if="formSubmitted" class="form-success">
+			<FormSuccess/>
+			<Button :onClick="toContinue" label="Continue"/>
 		</div>
 
 	</div>
@@ -81,14 +116,17 @@ export default defineComponent({
 
 
 <style scoped>
-.container {
+.form-container {
 	width: 400px;
-
 }
 
 .form-error {
-	text-align: center;
+	font-size: 12px;
 	color: #c50000;
+	border: solid 1px #c50000;
+	padding: 1em;
+	background-color: #fff3f3;
+	border-radius: 8px;
 }
 
 form {
@@ -101,12 +139,26 @@ form {
 	display: grid;
 	grid-template-columns: 200px 200px;
 	align-items: start;
+	grid-auto-rows: 1fr;
 }
 
 .expiration {
-	display: grid;
-	grid-template-columns: 85px 85px;
-	align-items: end;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	padding-right: 1em;
+}
+
+.expiration-dates {
+	display: flex;
 	gap: 0.5em;
 }
+
+.form-success {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+}
+
+
 </style>

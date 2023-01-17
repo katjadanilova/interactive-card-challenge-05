@@ -1,7 +1,7 @@
 <template>
 	<div class="input-field">
 		<label>{{ label }}</label>
-		<input v-model=text :placeholder=placeholder :class="classes">
+		<input :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes" @keyup="formatCard">
 		<span v-if="error">{{ error }}</span>
 	</div>
 </template>
@@ -21,8 +21,7 @@ export default defineComponent({
 
 	props: {
 		label: String,
-		placeholder: String,
-		emptyError: Boolean,
+		placeholder: {type: String, required: true},
 		kind: {type: String, required: true},
 		required: {type: Boolean, required: false, default: true},
 		forceShowError: {type: Boolean, default: true}
@@ -39,7 +38,18 @@ export default defineComponent({
 		text() {
 			this.pristine = false;
 			if (!this.error) {
+				if (this.kind === "number")
+					this.$emit("update:modelValue", this.text.replace(/\s/g, ''))
 				this.$emit("update:modelValue", this.text)
+			}
+		}
+	},
+
+	methods: {
+		formatCard() {
+			if (this.kind === "number") {
+				let nn = this.text;
+				(nn.length - (nn.split(" ").length - 1)) % 4 === 0 ? (this.text += ' ').trim() : ''
 			}
 		}
 	},
@@ -52,7 +62,7 @@ export default defineComponent({
 
 			if (this.text.length === 0) {
 				if (this.required) {
-					return "This field is required"
+					return "Can't be blank"
 				}
 			} else if (this.kind === "number") {
 				return validateNumbers(this.text);
@@ -63,8 +73,19 @@ export default defineComponent({
 			return {
 				"is-error": this.error !== null
 			}
+		},
+		maxLength(): number {
+			if (this.kind === "number")
+				return 23
+			if (this.kind === "date")
+				return 2
+			if (this.kind === "cvc")
+				return 3
+
+			return null
 		}
 	},
+
 
 	emits: ["update:modelValue"],
 });

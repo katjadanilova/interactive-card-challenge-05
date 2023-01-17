@@ -1,22 +1,30 @@
 <template>
-  <button>Confirm</button>
+	<button @click="onClick">{{ label }}</button>
 </template>
 
 <script>
 export default {
-  name: "Button"
+	name: "Button",
+	props: {
+		label: {type: String},
+		onClick: {type: Function}
+	},
+
+	methods: {
+
+	}
 }
 </script>
 
 <style scoped>
 button {
-  background-color: var(--color-text);
-  color: white;
-  padding: 1em;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  font-size: 18px;
+	background-color: var(--color-text);
+	color: white;
+	padding: 1em;
+	border-radius: 8px;
+	border: none;
+	font-weight: bold;
+	font-size: 18px;
 }
 
 </style>
