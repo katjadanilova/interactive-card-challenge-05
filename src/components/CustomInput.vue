@@ -91,48 +91,47 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .input-field {
 	display: flex;
 	flex-direction: column;
 	gap: 0.3em;
-}
 
-label {
-	text-transform: uppercase;
-}
+	label {
+		text-transform: uppercase;
+	}
 
-input {
-	width: 100%;
-	font-size: 18px;
-	border-radius: 8px;
-	padding: 0.5em 1em 0.5em 1em;
-	border: solid 1px var(--color-border);
-	font-family: inherit;
+	input {
+		width: 100%;
+		font-size: 18px;
+		border-radius: 8px;
+		padding: 0.5em 1em 0.5em 1em;
+		font-family: inherit;
+		border: 1px solid var(--color-background);
+	}
 
-}
+	input::placeholder {
+		color: var(--color-placeholder)
+	}
 
-.is-error {
-	border: solid 1px #c50000;
-}
+	input:focus {
+		outline-color: hsl(279, 6%, 55%);
+		border-color: transparent;
+	}
 
-.is-error:focus {
-	outline-color: #c50000;
-	border-color: transparent;
-}
+	.is-error {
+		border: solid 1px #c50000;
+	}
 
-input::placeholder {
-	color: var(--color-placeholder)
-}
+	.is-error:focus {
+		outline-color: #c50000;
+		border-color: transparent;
+	}
 
-input:focus {
-	outline-color: hsl(279, 6%, 55%);
-	border-color: transparent;
-}
-
-span {
-	font-size: 12px;
-	color: #c50000;
+	span {
+		font-size: 12px;
+		color: #c50000;
+	}
 }
 
 

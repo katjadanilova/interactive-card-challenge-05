@@ -75,7 +75,7 @@ export default defineComponent({
 </script>
 
 <template>
-	<div class="form-container" >
+	<div class="form-container">
 		<form @submit.prevent="handleSubmit" v-if="!formSubmitted">
 
 			<CustomInput v-model="cc.nameValue" label="Cardholder Name"
@@ -107,7 +107,7 @@ export default defineComponent({
 			<Button label="Confirm"/>
 		</form>
 
-		<div v-if="formSubmitted" class="form-success">
+		<div class="form-success" v-if="formSubmitted" >
 			<FormSuccess/>
 			<Button :onClick="toContinue" label="Continue"/>
 		</div>
@@ -116,56 +116,53 @@ export default defineComponent({
 </template>
 
 
-<style scoped>
-@media screen and (max-width: 950px) {
-	.form-container {
-		padding: 1em;
-		width: 100% !important;
-	}
-}
-
+<style lang="scss" scoped>
 .form-container {
 	width: 400px;
-	padding: 1em
-}
-
-.form-error {
-	font-size: 12px;
-	color: #c50000;
-	border: solid 1px #c50000;
 	padding: 1em;
-	background-color: #fff3f3;
-	border-radius: 8px;
-}
 
-form {
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-}
+	@media screen and (max-width: 950px) {
+		padding: 1em;
+		width: 100%;
+	}
 
-.expiration-details {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	align-items: start;
-}
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
 
-.expiration {
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	padding-right: 1em;
-}
+		.expiration-details {
+			display: flex;
 
-.expiration-dates {
-	display: flex;
-	gap: 0.5em;
-}
+			.expiration {
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+				align-items: start;
+				padding-right: 1em;
 
-.form-success {
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+				.expiration-dates {
+					display: flex;
+					gap: 0.5em;
+				}
+			}
+		}
+
+		.form-error {
+			font-size: 0.7em;
+			color: #c50000;
+			border: solid 1px #c50000;
+			padding: 1em;
+			background-color: #fff3f3;
+			border-radius: 8px;
+		}
+	}
+
+	.form-success {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
 }
 
 

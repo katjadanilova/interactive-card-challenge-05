@@ -1,13 +1,10 @@
 @import './base.css';
 
 body {
-    display: flex;
-    place-items: center;
     font-family: 'Ubuntu', sans-serif;
+
 }
 
-main {
-    display: flex;
-}
+
 
 
