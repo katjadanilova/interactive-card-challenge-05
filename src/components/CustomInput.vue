@@ -1,7 +1,7 @@
 <template>
 	<div class="input-field">
 		<label>{{ label }}</label>
-		<input :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes" @keyup="formatCard">
+		<input :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes">
 		<span v-if="error">{{ error }}</span>
 	</div>
 </template>
@@ -48,9 +48,9 @@ export default defineComponent({
 	methods: {
 		formatCard() {
 			if (this.kind === "number") {
-				let nn = this.text;
-				(nn.length - (nn.split(" ").length - 1)) % 4 === 0 ? (this.text += ' ').trim() : ''
+				this.text = this.text.replace(/(\d{4})/g, '$1 ')
 			}
+
 		}
 	},
 
@@ -76,7 +76,7 @@ export default defineComponent({
 		},
 		maxLength(): number {
 			if (this.kind === "number")
-				return 23
+				return 19
 			if (this.kind === "date")
 				return 2
 			if (this.kind === "cvc")
@@ -107,7 +107,7 @@ input {
 	font-size: 18px;
 	border-radius: 8px;
 	padding: 0.5em 1em 0.5em 1em;
-	border: solid 1px var(--vt-c-divider-light-1);
+	border: solid 1px var(--color-border);
 	font-family: inherit;
 
 }
@@ -122,7 +122,7 @@ input {
 }
 
 input::placeholder {
-	color: var(--color-border-hover)
+	color: var(--color-placeholder)
 }
 
 input:focus {

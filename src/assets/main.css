@@ -1,21 +1,13 @@
 @import './base.css';
 
-
-
-#app {
-  margin: 0;
-  font-weight: normal;
-  display: flex;
-  place-items: center;
-}
-
-@media (min-width: 1024px) {
-  body {
+body {
     display: flex;
     place-items: center;
-  }
-
-  #app {
-
-  }
+    font-family: 'Ubuntu', sans-serif;
 }
+
+main {
+    display: flex;
+}
+
+

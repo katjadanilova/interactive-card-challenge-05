@@ -68,13 +68,14 @@ export default defineComponent({
 			}
 			return errorArray;
 		}
-	}
+	},
+	emits: ["sendData"]
 })
 
 </script>
 
 <template>
-	<div class="form-container">
+	<div class="form-container" >
 		<form @submit.prevent="handleSubmit" v-if="!formSubmitted">
 
 			<CustomInput v-model="cc.nameValue" label="Cardholder Name"
@@ -85,7 +86,7 @@ export default defineComponent({
 						 placeholder="e.g. 1234 56789 9123 0000"
 						 :force-show-error="showFormError"/>
 
-			<div class="back">
+			<div class="expiration-details">
 				<div class="expiration">
 					<p>Exp.Date(MM/YY)</p>
 					<div class="expiration-dates">
@@ -116,8 +117,16 @@ export default defineComponent({
 
 
 <style scoped>
+@media screen and (max-width: 950px) {
+	.form-container {
+		padding: 1em;
+		width: 100% !important;
+	}
+}
+
 .form-container {
 	width: 400px;
+	padding: 1em
 }
 
 .form-error {
@@ -135,11 +144,10 @@ form {
 	gap: 1em;
 }
 
-.back {
+.expiration-details {
 	display: grid;
-	grid-template-columns: 200px 200px;
+	grid-template-columns: 1fr 1fr;
 	align-items: start;
-	grid-auto-rows: 1fr;
 }
 
 .expiration {

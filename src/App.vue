@@ -8,7 +8,7 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			cardData: {
+			card: {
 				nameValue: "",
 				cardNumber: "",
 				expDateMM: "",
@@ -19,11 +19,11 @@ export default defineComponent({
 	},
 	methods: {
 		handleData(data) {
-			this.cardData.cardNumber = data.cardNumber
-			this.cardData.nameValue = data.nameValue
-			this.cardData.expDateYY = data.expDateYY
-			this.cardData.expDateMM = data.expDateMM
-			this.cardData.CVC = data.CVC
+			this.card.cardNumber = data.cardNumber.replace(/(\d{4})/g, '$1 ')
+			this.card.nameValue = data.nameValue
+			this.card.expDateYY = data.expDateYY
+			this.card.expDateMM = data.expDateMM
+			this.card.CVC = data.CVC
 		},
 		isEmpty(value: string) {
 			return !value.length;
@@ -38,25 +38,27 @@ export default defineComponent({
 	<div class="composition">
 
 		<div class="images">
-			<div class="bg-card front">
-				<div class="circles">
-					<div class="big-circle"></div>
-					<div class="small-circle"></div>
-				</div>
-				<h2>{{ isEmpty(cardData.cardNumber) ? "0000 0000 0000 0000" : cardData.cardNumber }}</h2>
+			<div class="cards">
+				<div class="bg-card front">
+					<div class="circles">
+						<div class="big-circle"></div>
+						<div class="small-circle"></div>
+					</div>
+					<h2>{{ isEmpty(card.cardNumber) ? "0000 0000 0000 0000" : card.cardNumber }}</h2>
 
-				<div class="details">
-					<p>{{ isEmpty(cardData.nameValue) ? "Jane Appleseed" : cardData.nameValue }}</p>
-					<div class="date">
-						<p>{{ isEmpty(cardData.expDateMM) ? "00" : cardData.expDateMM }}</p>
-						/
-						<p>{{ isEmpty(cardData.expDateYY) ? "00" : cardData.expDateYY }}</p>
+					<div class="details">
+						<p>{{ isEmpty(card.nameValue) ? "Jane Appleseed" : card.nameValue }}</p>
+						<div class="date">
+							<p>{{ isEmpty(card.expDateMM) ? "00" : card.expDateMM }}</p>
+							/
+							<p>{{ isEmpty(card.expDateYY) ? "00" : card.expDateYY }}</p>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="bg-card back">
-				<p class="cvc">{{ isEmpty(cardData.CVC) ? "000" : cardData.CVC }}</p>
+				<div class="bg-card back">
+					<p class="cvc">{{ isEmpty(card.CVC) ? "000" : card.CVC }}</p>
+				</div>
 			</div>
 		</div>
 
@@ -78,6 +80,12 @@ export default defineComponent({
 	height: 900px;
 	width: 600px;
 	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Space Grotesk', sans-serif;
+}
+
+.cards {
 	position: relative;
 }
 
@@ -85,18 +93,19 @@ export default defineComponent({
 	position: absolute;
 	box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 	border-radius: 10px;
-	width: 447px;
-	height: 245px;
+	width: 430px;
+	height: calc(430px * 0.628)
 }
 
 .front {
-	background: center / contain no-repeat url('./assets/bg-card-front.png');
-	top: 200px;
-	left: 250px;
+	background: center / cover no-repeat url('./assets/bg-card-front.png');
+	top: -250px;
+	left: -10px;
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
 	padding: 1em;
+	justify-content: space-between;
 }
 
 .details {
@@ -139,13 +148,47 @@ h2 {
 }
 
 .back {
-	background: center / contain no-repeat url('./assets/bg-card-back.png');
-	top: 500px;
-	left: 340px;
+	background: center / cover no-repeat url('./assets/bg-card-back.png');
+	top: 50px;
+	left:60px;
 }
 
 .cvc {
-	top: 108px;
-	left: 340px;
+	margin-top: 120px;
+	margin-left: 350px;
+}
+
+@media screen and (max-width: 950px) {
+	.composition {
+		flex-direction: column;
+		gap: 4em;
+	}
+
+	.images {
+		height: 250px;
+		width: 100%;
+	}
+
+	.bg-card {
+		scale: 0.65;
+	}
+
+	.front {
+		left: -250px;
+		top: -50px;
+		z-index: 1;
+	}
+
+	.back {
+		top: -150px;
+		left: -180px;
+	}
+
+	.cvc {
+		top: 45px;
+		left: 350px;
+	}
+
+
 }
 </style>

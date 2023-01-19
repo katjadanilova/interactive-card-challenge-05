@@ -4,31 +4,15 @@
     --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
     --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
     --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-    --vt-c-text-light-1: hsl(276, 66%, 11%);
     --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
     --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 }
 
 :root {
-
-    --color-border: var(--vt-c-divider-light-2);
-    --color-border-hover: var(--vt-c-divider-light-1);
-
-    --color-heading: var(--vt-c-text-light-1);
-    --color-text: var(--vt-c-text-light-1);
-
-    --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: hsl(270, 3%, 87%);
-        --color-border: var(--vt-c-divider-dark-2);
-        --color-border-hover: var(--vt-c-divider-dark-1);
-        --color-heading: var(--vt-c-text-light-1);
-        --color-text: var(--vt-c-text-light-1);
-    }
+    --color-background: hsl(270, 3%, 87%);
+    --color-text: hsl(276, 66%, 11%);
+    --color-placeholder: var(--vt-c-divider-light-1);
+    --color-border: var(--vt-c-divider-dark-1);
 }
 
 *,
@@ -36,17 +20,14 @@
 *::after {
     box-sizing: border-box;
     margin: 0;
-    position: relative;
-    font-weight: normal;
 }
 
 body {
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     color: var(--color-text);
     transition: color 0.5s, background-color 0.5s;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
+    font-family: 'Space Grotesk', 'Ubuntu', sans-serif;
+    font-size: 1.1em;
     text-rendering: optimizeLegibility;
 }
