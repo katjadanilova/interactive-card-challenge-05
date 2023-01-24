@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "strict": false,
+    "allowJs": true,
     "paths": {
       "@/*": ["./src/*"]
     }

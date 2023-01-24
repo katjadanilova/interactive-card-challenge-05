@@ -99,6 +99,7 @@ export default defineComponent({
 
 		.cards {
 			position: relative;
+			font-size: 1.2em;
 
 			.bg-card {
 				position: absolute;
@@ -174,7 +175,6 @@ export default defineComponent({
 					@media screen and (max-width: 950px) {
 						left: -200px;
 						top: -150px;
-
 					}
 
 					.cvc {
@@ -188,5 +188,4 @@ export default defineComponent({
 		}
 	}
 }
-
 </style>

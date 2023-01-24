@@ -20,6 +20,7 @@ export default defineComponent({
 		return {
 			showFormError: false,
 			formSubmitted: false,
+			shakeEnabled: false,
 			cc: {
 				nameValue: "",
 				cardNumber: "",
@@ -50,6 +51,14 @@ export default defineComponent({
 			for (const prop in this.cc) {
 				this.cc[prop] = ""
 			}
+		},
+		enableShake() {
+			if (this.formError.length) {
+				this.shakeEnabled = true
+				setTimeout(() => {
+					this.shakeEnabled = false
+				}, 1500)
+			}
 		}
 
 	},
@@ -66,6 +75,9 @@ export default defineComponent({
 			if (!isInMonthlyRange(this.cc.expDateMM)) {
 				errorArray.push("Enter the expiration month in MM format, such as '01' for January.")
 			}
+			if (!this.cc.cardNumber || !this.cc.nameValue || !this.cc.CVC)
+				errorArray.push("Fill in all the required fields.")
+
 			return errorArray;
 		}
 	},
@@ -88,7 +100,7 @@ export default defineComponent({
 
 			<div class="expiration-details">
 				<div class="expiration">
-					<p>Exp.Date(MM/YY)</p>
+					<span>Exp.Date(MM/YY)</span>
 					<div class="expiration-dates">
 						<CustomInput kind="date" v-model="cc.expDateMM" placeholder="MM"
 									 :force-show-error="showFormError"/>
@@ -104,10 +116,10 @@ export default defineComponent({
 				<p v-for="error in formError">{{ error }}</p>
 			</div>
 
-			<Button label="Confirm"/>
+			<Button @click="enableShake" :class="{ shake: shakeEnabled }" label="Confirm"/>
 		</form>
 
-		<div class="form-success" v-if="formSubmitted" >
+		<div class="form-success" v-if="formSubmitted">
 			<FormSuccess/>
 			<Button :onClick="toContinue" label="Continue"/>
 		</div>
@@ -131,6 +143,34 @@ export default defineComponent({
 		flex-direction: column;
 		gap: 1em;
 
+		.shake {
+			animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+			transform: translate3d(0, 0, 0);
+		}
+
+		@keyframes shake {
+			10%,
+			90% {
+				transform: translate3d(-1px, 0, 0);
+			}
+
+			20%,
+			80% {
+				transform: translate3d(2px, 0, 0);
+			}
+
+			30%,
+			50%,
+			70% {
+				transform: translate3d(-4px, 0, 0);
+			}
+
+			40%,
+			60% {
+				transform: translate3d(4px, 0, 0);
+			}
+		}
+
 		.expiration-details {
 			display: flex;
 
@@ -140,6 +180,10 @@ export default defineComponent({
 				flex-direction: column;
 				align-items: start;
 				padding-right: 1em;
+
+				span {
+					text-transform: uppercase;
+				}
 
 				.expiration-dates {
 					display: flex;

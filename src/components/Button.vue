@@ -8,10 +8,6 @@ export default {
 	props: {
 		label: {type: String},
 		onClick: {type: Function}
-	},
-
-	methods: {
-
 	}
 }
 </script>

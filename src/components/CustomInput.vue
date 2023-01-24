@@ -1,7 +1,7 @@
 <template>
 	<div class="input-field">
 		<label>{{ label }}</label>
-		<input :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes">
+		<input  :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes">
 		<span v-if="error">{{ error }}</span>
 	</div>
 </template>
@@ -105,7 +105,7 @@ export default defineComponent({
 		width: 100%;
 		font-size: 18px;
 		border-radius: 8px;
-		padding: 0.5em 1em 0.5em 1em;
+		padding: 0.5em;
 		font-family: inherit;
 		border: 1px solid var(--color-background);
 	}
