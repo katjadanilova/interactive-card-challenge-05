@@ -24,7 +24,7 @@ Users should be able to:
 ### Links
 
 - Solution URL: [Github](https://github.com/katjadanilova/interactive-card-challenge-05)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [URL](https://interactive-card-challenge-05-fnty1h3s7-katjadanilova.vercel.app/)
 
 ## My process
 
