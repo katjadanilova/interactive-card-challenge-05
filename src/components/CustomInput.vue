@@ -1,7 +1,7 @@
 <template>
 	<div class="input-field">
 		<label>{{ label }}</label>
-		<input  :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes">
+		<input :maxlength="maxLength" v-model=text :placeholder=placeholder :class="classes" @keyup="formatCard">
 		<span v-if="error">{{ error }}</span>
 	</div>
 </template>
@@ -14,6 +14,12 @@ function validateNumbers(value: string): string | null {
 		return 'Wrong format, numbers only';
 
 	return null;
+}
+
+function addSpaceToNumber (value: string): string {
+	return (
+		value.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ")
+	);
 }
 
 export default defineComponent({
@@ -47,10 +53,8 @@ export default defineComponent({
 
 	methods: {
 		formatCard() {
-			if (this.kind === "number") {
-				this.text = this.text.replace(/(\d{4})/g, '$1 ')
-			}
-
+			if (this.kind === "number")
+				this.text = addSpaceToNumber(this.text)
 		}
 	},
 
@@ -76,7 +80,7 @@ export default defineComponent({
 		},
 		maxLength(): number {
 			if (this.kind === "number")
-				return 19
+				return 23
 			if (this.kind === "date")
 				return 2
 			if (this.kind === "cvc")
@@ -85,8 +89,6 @@ export default defineComponent({
 			return null
 		}
 	},
-
-
 	emits: ["update:modelValue"],
 });
 </script>
