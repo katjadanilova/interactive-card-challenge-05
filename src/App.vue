@@ -44,7 +44,7 @@ export default defineComponent({
 						<div class="big-circle"></div>
 						<div class="small-circle"></div>
 					</div>
-					<h2>{{ isEmpty(card.cardNumber) ? "0000 0000 0000 0000" : card.cardNumber }}</h2>
+					<h1>{{ isEmpty(card.cardNumber) ? "0000 0000 0000 0000" : card.cardNumber }}</h1>
 
 					<div class="details">
 						<span>{{ isEmpty(card.nameValue) ? "Jane Appleseed" : card.nameValue }}</span>
@@ -108,7 +108,7 @@ export default defineComponent({
 				width: 430px;
 				height: calc(430px * 0.628);
 
-				h2 {
+				h1 {
 					font-size: 1.6em;
 					color: white
 				}
