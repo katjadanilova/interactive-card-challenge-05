@@ -16,7 +16,7 @@ function validateNumbers(value: string): string | null {
 	return null;
 }
 
-function addSpaceToNumber (value: string): string {
+function addSpaceToNumber(value: string): string {
 	return (
 		value.replace(/\s/g, "").match(/.{1,4}/g)?.join(" ")
 	);
@@ -68,7 +68,7 @@ export default defineComponent({
 				if (this.required) {
 					return "Can't be blank"
 				}
-			} else if (this.kind === "number") {
+			} else if (this.kind === "number" || this.kind === "cvc" || this.kind === "date") {
 				return validateNumbers(this.text);
 			}
 			return null;
